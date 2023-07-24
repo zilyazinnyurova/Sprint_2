@@ -14,15 +14,13 @@ class TestBooksCollector:
     )
     def test_add_new_book_new_name_is_added_to_books_genre(self, book_name, book_genre):
         collector = BooksCollector()
-        assert collector.books_genre == {}
         collector.add_new_book(book_name)
-        assert collector.books_genre == {book_name: ''}
+        assert collector.get_books_genre() == {book_name: ''}
 
     def test_add_new_book_long_name_is_not_added_to_books_genre(self):
         collector = BooksCollector()
-        assert collector.books_genre == {}
         collector.add_new_book('HamletHamletHamletHamletHamletHamletHamletHamletHamlet')
-        assert collector.books_genre == {}
+        assert collector.get_books_genre() == {}
 
     @pytest.mark.parametrize(
         'book_name, book_genre',
@@ -34,9 +32,8 @@ class TestBooksCollector:
     def test_set_book_genre_existed_name_genre_is_set_for_book(self, book_name, book_genre):
         collector = BooksCollector()
         collector.add_new_book(book_name)
-        assert collector.books_genre == {book_name: ''}
         collector.set_book_genre(book_name, book_genre)
-        assert collector.books_genre == {book_name: book_genre}
+        assert collector.get_books_genre() == {book_name: book_genre}
 
     def test_get_book_genre_existed_name_is_returned_book_genre(self):
         collector = BooksCollector()
@@ -70,18 +67,16 @@ class TestBooksCollector:
         collector = BooksCollector()
         collector.add_new_book('Hamlet')
         collector.add_new_book('Otella')
-        assert collector.favorites == []
         collector.add_book_in_favorites('Hamlet')
-        assert collector.favorites == ['Hamlet']
+        assert collector.get_list_of_favorites_books() == ['Hamlet']
 
     def test_delete_book_from_favorites_existed_name_in_favorites_is_deleted_from_favorites(self):
         collector = BooksCollector()
         collector.add_new_book('Hamlet')
         collector.add_new_book('Otella')
         collector.add_book_in_favorites('Hamlet')
-        assert collector.favorites == ['Hamlet']
         collector.delete_book_from_favorites('Hamlet')
-        assert collector.favorites == []
+        assert collector.get_list_of_favorites_books() == []
 
     def test_get_list_of_favorites_books_is_returned_favorites(self):
         collector = BooksCollector()
